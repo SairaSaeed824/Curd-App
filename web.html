@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+    <style>
+        /* General reset */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        
+        .navbar {
+            background-color: #007bff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar .logo {
+            color: #fff;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        
+        .nav-links a.disabled {
+            color: #ccc;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .input-container input {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .input-container button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .input-container button:hover {
+            background-color: #218838;
+        }
+        
+        .chapter-list {
+            margin-top: 20px;
+        }
+        
+        .chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .chapter-item span {
+            font-size: 1.1rem;
+        }
+        
+        .edit-btn,
+        .remove-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .edit-btn {
+            background-color: #ffc107;
+            color: #fff;
+        }
+        
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        
+        .remove-btn {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .remove-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">Navbar</a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">Pricing</a>
+            <a href="#" class="disabled">Disabled</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="input-container">
+            <input type="text" placeholder="Chapter Name" id="chapterName">
+            <button id="addBtn">Add</button>
+        </div>
+
+        <div class="chapter-list" id="chapterList">
+            <div class="chapter-item">
+                <span>Chapter 2</span>
+                <button class="edit-btn">Edit</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const addBtn = document.getElementById('addBtn');
+        const chapterList = document.getElementById('chapterList');
+        const chapterNameInput = document.getElementById('chapterName');
+
+        // Function to add a new chapter
+        addBtn.addEventListener('click', () => {
+            const chapterName = chapterNameInput.value.trim();
+            if (chapterName) {
+                const chapterItem = document.createElement('div');
+                chapterItem.classList.add('chapter-item');
+                chapterItem.innerHTML = `
+                    <span>${chapterName}</span>
+                    <button class="edit-btn">Edit</button>
+                    <button class="remove-btn">Remove</button>
+                `;
+                chapterList.appendChild(chapterItem);
+                chapterNameInput.value = ''; // Clear input
+
+                // Add functionality to the new edit and remove buttons
+                addChapterButtons(chapterItem);
+            }
+        });
+
+        // Function to add Edit and Remove functionality to chapter items
+        function addChapterButtons(chapterItem) {
+            const editBtn = chapterItem.querySelector('.edit-btn');
+            const removeBtn = chapterItem.querySelector('.remove-btn');
+            const chapterSpan = chapterItem.querySelector('span');
+
+            // Remove the chapter
+            removeBtn.addEventListener('click', () => {
+                chapterItem.remove();
+            });
+
+            // Edit the chapter
+            editBtn.addEventListener('click', () => {
+                const newChapterName = prompt('Edit chapter name:', chapterSpan.textContent);
+                if (newChapterName) {
+                    chapterSpan.textContent = newChapterName.trim();
+                }
+            });
+        }
+
+        // Initialize edit and remove buttons for the existing chapter item
+        document.querySelectorAll('.chapter-item').forEach(addChapterButtons);
+    </script>
+</body>
+
+</html>
